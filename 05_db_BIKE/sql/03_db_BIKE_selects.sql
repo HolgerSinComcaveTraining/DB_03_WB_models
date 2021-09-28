@@ -121,7 +121,7 @@ HAVING sum(stueckzahl) > 1
 ORDER BY Artnr ASC
 ;
 
-# Musterlösung
+###### Musterlösung
 SELECT 
 	Artnr,
 	Bezeichnung,
@@ -139,3 +139,47 @@ der für diesen Auftrag reservierten Artikel aus.
 
 SELECT * FROM reservierung;
 SELECT * FROM auftragsposten;
+SELECT * FROM artikel;
+
+#CREATE OR REPLACE VIEW auftrag2 AS
+SELECT 
+	R.Artnr,
+    Bezeichnung,
+    R.Anzahl
+FROM auftragsposten AS AP
+INNER JOIN reservierung AS R ON AP.Posnr = R.Posnr
+INNER JOIN artikel AS A ON R.Artnr = A.Anr
+WHERE AuftrNr = 2
+;
+
+SELECT 
+	* 
+    FROM auftrag2, reservierung
+#WHERE auftrag2.Artnr = reservierung.Artnr    
+; 
+
+##### Musterlösung
+
+-- mit INNER JOIN / ON
+SELECT 
+	R.Artnr,
+    A.Bezeichnung,
+    R.Anzahl
+FROM Auftragsposten AS AP
+INNER JOIN Reservierung AS R ON AP.PosNr = R.Posnr
+INNER JOIN Artikel AS A ON A.ANr = R.Artnr
+WHERE AP.AuftrNr = 2
+;
+
+-- mit Kreuzprodukt / WHERE
+-- Kreuzprodukt
+SELECT 
+	R.Artnr, 
+    A.Bezeichnung, 
+    R.Anzahl 
+FROM  Auftragsposten AP, Reservierung R, Artikel A 
+WHERE AP.PosNr = R.Posnr AND A.ANr = R.Artnr AND AP.AuftrNr = 2
+
+
+
+
